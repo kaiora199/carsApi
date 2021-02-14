@@ -1,8 +1,8 @@
 const db = require('../database');
 
-const carFuckItIDontKnow = {
-  getAllCars: function(callback) {
-    return db.query('select * from car', callback);
+const car = {
+  get: function(callback) {
+    return db.query('select * from car order by idcar desc', callback);
   },
   getById: function(id, callback) {
     return db.query('select * from car where idcar=?', [id], callback);
@@ -14,23 +14,15 @@ const carFuckItIDontKnow = {
       callback
     );
   },
-  delete: function(id, callback) {
+  delete: function(idcar, callback) {
     return db.query('delete from car where idcar=?', [id], callback);
   },
-  update: function(id, car, callback) {
+  update: function(idcar, car, callback) {
     return db.query(
-      'update car set brand=?,model=?, yearmodel=? where idcar=?',
-      [car.brand, car.model, car.yearmodel, id],
+      'update car set name=?,author=?, isbn=? where id_car=?',
+      [car.brand, car.model, car.yearmodel, idcar],
       callback
     );
-  },
-  searchByBrand:function(value,callback) {
-    const nameLike="%"+value+"%";
-    return db.query('select * from car where name LIKE ? order by idcar desc',[nameLike], callback);
-  },
-  searchByModel:function(value,callback) {
-    const modelLike="%"+value+"%";
-    return db.query('select * from car where model LIKE ? order by idcar desc',[modelLike], callback);
   }
 };
 module.exports = car;
